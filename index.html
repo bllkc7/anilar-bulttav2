@@ -50,29 +50,6 @@
       }
     }
 
-    .avatar-preview {
-      width: 100px;
-      height: 100px;
-      border-radius: 24px;
-      object-fit: cover;
-      border: 4px solid white;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-      margin: 0 auto 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f1f5f9;
-      color: #94a3b8;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .avatar-preview:hover {
-      border-color: #000;
-      color: #000;
-    }
-
     .progress-bar-fill {
       transition: width 0.3s ease;
     }
@@ -88,38 +65,37 @@
   <!-- ADMIN PANELİ -->
   <main id="adminPanel" class="w-full max-w-lg fade-in">
     <div
-      class="bg-white border border-slate-100 rounded-[32px] md:rounded-[48px] p-6 md:p-14 shadow-2xl relative overflow-hidden">
+      class="bg-white border border-slate-100 rounded-[32px] md:rounded-[48px] p-6 md:p-14 shadow-2xl relative overflow-hidden text-center">
       <div class="absolute top-0 left-0 w-full h-2 bg-black"></div>
-      <h2 class="text-2xl md:text-3xl font-bold mb-2 md:mb-3 serif-font">Sistemi Aktifleştir</h2>
-      <p class="text-gray-500 mb-8 md:mb-10 text-xs md:text-sm italic">Google Script URL'nizi bağlayın.</p>
 
-      <form id="setupForm" class="space-y-5 md:space-y-6 text-left">
-        <div class="text-center">
-          <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Kapak Fotoğrafı
-            Seç</label>
-          <div id="avatarSelector" class="avatar-preview" onclick="document.getElementById('coverInput').click()">
-            <i class="fa-solid fa-camera text-2xl" id="avatarIcon"></i>
-            <img id="avatarImage" class="hidden w-full h-full object-cover">
-          </div>
-          <input type="file" id="coverInput" accept="image/*" class="hidden" onchange="handleCoverSelect(event)">
-          <p id="coverStatus" class="text-[9px] text-green-500 uppercase font-bold hidden">Fotoğraf Hazır!</p>
+      <!-- Sabit Logo/Simge -->
+      <div class="flex justify-center mb-6">
+        <div
+          class="w-20 h-20 bg-black text-white rounded-[28px] flex items-center justify-center text-3xl shadow-2xl transform rotate-3 transition hover:rotate-0 duration-500">
+          <i class="fa-solid fa-cloud-bolt"></i>
         </div>
+      </div>
 
+      <h2 class="text-3xl md:text-4xl font-bold mb-2 serif-font">Anılar Buluttan</h2>
+      <p class="text-gray-400 mb-10 text-xs md:text-sm italic font-medium">Etkinliğinizi dakikalar içinde hazırlayın.
+      </p>
+
+      <form id="setupForm" class="space-y-6 text-left">
         <div>
           <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Google Script URL
             (Makro URL)</label>
           <input id="scriptUrl" type="text" placeholder="https://script.google.com/macros/s/.../exec" required
-            class="w-full px-5 py-3.5 md:px-6 md:py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-100 focus:border-black transition text-xs md:text-sm font-mono">
+            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-black transition text-xs md:text-sm font-mono leading-relaxed">
         </div>
         <div>
           <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Etkinlik
             Adı</label>
-          <input id="eventName" type="text" placeholder="Örn: Ayşe & Barış Düğünü" required
-            class="w-full px-5 py-3.5 md:px-6 md:py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-100 focus:border-black transition text-sm font-bold">
+          <input id="eventName" type="text" placeholder="Örn: Bilal & Emel Düğünü" required
+            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-black transition text-sm font-bold">
         </div>
 
         <button type="submit" id="generateBtn"
-          class="w-full py-4 md:py-5 bg-black text-white font-bold text-base md:text-lg rounded-xl md:rounded-2xl hover:bg-gray-800 active:scale-[0.99] transition shadow-lg flex items-center justify-center gap-3">
+          class="w-full py-5 bg-black text-white font-bold text-lg rounded-2xl hover:bg-gray-800 active:scale-[0.98] transition shadow-xl flex items-center justify-center gap-3">
           <span>QR Kod Oluştur</span> <i class="fa-solid fa-magic text-sm"></i>
         </button>
       </form>
@@ -128,36 +104,32 @@
 
   <!-- MİSAFİR PANELİ -->
   <main id="guestPanel" class="hidden w-full max-w-md fade-in">
-    <div class="bg-white p-6 md:p-12 rounded-[40px] md:rounded-[56px] shadow-2xl text-center border border-gray-100">
-      <div id="displayAvatar"
-        class="w-20 h-20 bg-black text-white rounded-3xl flex items-center justify-center mx-auto mb-6 md:mb-8 text-2xl md:text-3xl shadow-xl transform rotate-3 overflow-hidden">
-        <i class="fa-solid fa-camera-retro"></i>
+    <div class="bg-white p-8 md:p-12 rounded-[56px] shadow-2xl text-center border border-gray-100">
+      <div
+        class="w-20 h-20 bg-black text-white rounded-3xl flex items-center justify-center mx-auto mb-8 text-3xl shadow-xl transform rotate-3">
+        <i class="fa-solid fa-cloud-bolt"></i>
       </div>
       <h2 id="displayEventTitle"
         class="text-2xl md:text-3xl font-extrabold mb-3 tracking-tight serif-font text-slate-900 leading-tight">Hoş
         Geldiniz</h2>
 
       <div id="guestMainContent" class="space-y-6">
-        <!-- İsim Girişi -->
-        <div class="text-left" id="nameSection">
+        <div class="text-left">
           <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Adınız
             Soyadınız</label>
           <input id="guestName" type="text" placeholder="İsminizi yazın..." required
             class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-black transition text-sm">
         </div>
 
-        <!-- Yükleme Alanı -->
         <div id="dropZone"
           class="border-2 border-dashed border-slate-200 rounded-[40px] p-10 cursor-pointer bg-slate-50/50 hover:bg-slate-100/50 transition shadow-inner"
           onclick="document.getElementById('fileInput').click()">
-          <i class="fa-solid fa-cloud-arrow-up text-3xl mb-4 text-slate-300"></i>
+          <i class="fa-solid fa-arrow-up-from-bracket text-3xl mb-4 text-slate-300"></i>
           <p class="font-bold text-sm text-slate-600">Fotoğraf & Video Seç</p>
-          <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wide">Birden fazla dosya seçebilirsiniz</p>
           <input type="file" id="fileInput" multiple accept="image/*,video/*" class="hidden"
             onchange="startGuestUpload(event)">
         </div>
 
-        <!-- İlerleme -->
         <div id="uploadStatus" class="hidden text-left space-y-3 p-5 bg-slate-50 rounded-3xl border border-slate-100">
           <div class="flex justify-between">
             <span id="statusLabel"
@@ -169,7 +141,6 @@
           </div>
         </div>
 
-        <!-- Başarı Mesajı ve Tekrar Yükle -->
         <div id="finishSuccess" class="hidden space-y-4">
           <div
             class="p-4 bg-green-50 text-green-700 rounded-2xl text-sm font-bold shadow-inner flex items-center justify-center gap-2">
@@ -179,7 +150,6 @@
             class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:bg-black transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus"></i> Yeni Fotoğraf/Video Yükle
           </button>
-          <p class="text-[10px] text-gray-400 italic">"Aynı isimle yüklemeye devam edebilirsiniz."</p>
         </div>
       </div>
     </div>
@@ -192,19 +162,13 @@
       <button onclick="closeModal()" class="absolute top-8 right-8 text-gray-300 hover:text-black transition"><i
           class="fa-solid fa-xmark text-2xl"></i></button>
       <h3 class="text-3xl font-extrabold mb-3 serif-font text-slate-900">QR Kodunuz Hazır!</h3>
-      <p class="text-gray-500 mb-8 text-xs">Misafirler bu QR kodu okutunca doğrudan yükleme ekranına gidecek.</p>
-
       <div id="qrcode" class="qr-container p-6 bg-slate-50 rounded-[40px] mb-8 flex justify-center"></div>
-
-      <div id="qrError" class="hidden p-4 mb-4 bg-red-50 text-red-600 text-xs rounded-2xl font-bold">Fotoğraf QR kodu
-        çok karmaşıklaştırdı. Lütfen daha küçük bir fotoğraf yükleyin veya fotoğrafsız deneyin.</div>
-
       <div class="flex flex-col gap-3">
         <button onclick="printQR()" class="w-full py-5 bg-black text-white rounded-2xl font-bold">Yazdır</button>
         <div class="grid grid-cols-2 gap-3">
-          <button id="testLinkBtn" class="py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-xs">Test
-            Et</button>
-          <button id="copyBtn" class="py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-xs">Linki
+          <button id="testLinkBtn"
+            class="py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-xs border-none">Test Et</button>
+          <button id="copyBtn" class="py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-xs border-none">Linki
             Kopyala</button>
         </div>
       </div>
@@ -212,45 +176,13 @@
   </div>
 
   <script>
-    let activeTargetUrl = null, activeEvent = null, coverBase64 = null;
+    let activeTargetUrl = null, activeEvent = null;
 
     const params = new URLSearchParams(window.location.search);
     if (params.get('target') && params.get('event')) {
       activeTargetUrl = decodeURIComponent(params.get('target'));
       activeEvent = decodeURIComponent(params.get('event'));
-      const imgData = params.get('img');
-      if (imgData) coverBase64 = decodeURIComponent(imgData);
       switchToGuestView();
-    }
-
-    function handleCoverSelect(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const img = new Image();
-        img.onload = function () {
-          const canvas = document.createElement('canvas');
-          // KRİTİK: QR kodun taranabilmesi için boyutu ÇOK küçültüyoruz (40px)
-          // Bu sayede QR kod daha seyreltik ve okunabilir olur.
-          const size = 40;
-          canvas.width = size;
-          canvas.height = size;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, size, size);
-
-          coverBase64 = canvas.toDataURL('image/jpeg', 0.2);
-
-          document.getElementById('avatarIcon').classList.add('hidden');
-          const thumb = document.getElementById('avatarImage');
-          thumb.src = coverBase64;
-          thumb.classList.remove('hidden');
-          document.getElementById('coverStatus').classList.remove('hidden');
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
     }
 
     function switchToGuestView() {
@@ -259,17 +191,13 @@
       document.getElementById('adminPanel').classList.add('hidden');
       document.getElementById('guestPanel').classList.remove('hidden');
       document.getElementById('displayEventTitle').innerText = activeEvent;
-      if (coverBase64) {
-        document.getElementById('displayAvatar').innerHTML = `<img src="${coverBase64}" class="w-full h-full object-cover">`;
-      }
       window.scrollTo(0, 0);
     }
 
-    // Misafir ekranını sıfırla (İsim kalsın)
     function resetGuestUI() {
       document.getElementById('finishSuccess').classList.add('hidden');
       document.getElementById('uploadStatus').classList.add('hidden');
-      document.getElementById('dropZone').classList.remove('hidden', 'pointer-events-none', 'opacity-50');
+      document.getElementById('dropZone').classList.remove('hidden');
       document.getElementById('progressBar').style.width = '0%';
       document.getElementById('percentLabel').innerText = '0%';
       document.getElementById('fileInput').value = "";
@@ -279,25 +207,11 @@
       e.preventDefault();
       const url = document.getElementById('scriptUrl').value;
       const name = document.getElementById('eventName').value;
-
-      let finalUrl = `${window.location.href.split('?')[0]}?target=${encodeURIComponent(url)}&event=${encodeURIComponent(name)}`;
-      if (coverBase64) finalUrl += `&img=${encodeURIComponent(coverBase64)}`;
+      const finalUrl = `${window.location.href.split('?')[0]}?target=${encodeURIComponent(url)}&event=${encodeURIComponent(name)}`;
 
       const qrDiv = document.getElementById("qrcode");
-      const errDiv = document.getElementById("qrError");
       qrDiv.innerHTML = "";
-      errDiv.classList.add('hidden');
-
-      try {
-        new QRCode(qrDiv, {
-          text: finalUrl,
-          width: 256,
-          height: 256,
-          correctLevel: QRCode.CorrectLevel.L
-        });
-      } catch (err) {
-        errDiv.classList.remove('hidden');
-      }
+      new QRCode(qrDiv, { text: finalUrl, width: 256, height: 256, correctLevel: QRCode.CorrectLevel.M });
 
       document.getElementById('testLinkBtn').onclick = () => {
         activeTargetUrl = url;
@@ -328,10 +242,8 @@
       progressSection.classList.remove('hidden');
 
       for (let i = 0; i < files.length; i++) {
+        sl.innerText = `${i + 1} / ${files.length} Dosya Gönderiliyor...`;
         const file = files[i];
-        // Detaylı durum bilgisi
-        if (sl) sl.innerText = `${i + 1} / ${files.length} Dosya Gönderiliyor...`;
-
         const reader = new FileReader();
         await new Promise((resolve) => {
           reader.onload = async (e) => {
@@ -350,7 +262,7 @@
           reader.readAsDataURL(file);
         });
       }
-
+      sl.innerText = "Yükleme Tamamlandı!";
       progressSection.classList.add('hidden');
       document.getElementById('finishSuccess').classList.remove('hidden');
     };
@@ -361,7 +273,7 @@
       const qrImg = document.querySelector('#qrcode img');
       if (!qrImg) return;
       const win = window.open('', '', 'width=800,height=900');
-      win.document.write(`<html><body style="text-align:center;padding:50px;"><h1>${activeEvent || "Anılar Bulutta"}</h1><img src="${qrImg.src}" style="width:350px;"></body></html>`);
+      win.document.write(`<html><body style="text-align:center;padding:50px;font-family:sans-serif;"><h1>${activeEvent}</h1><p>Anılarınızı paylaşmak için taratın!</p><img src="${qrImg.src}" style="width:350px;"></body></html>`);
       win.document.close();
       setTimeout(() => { win.print(); win.close(); }, 500);
     };
