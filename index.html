@@ -4,44 +4,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anılar Bulutta | Admin</title>
+  <title>Anılar Buluttan | Fotoğraf & Video Paylaşımı</title>
   <!-- Tailwind CSS ve Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <!-- QR Kod Kütüphanesi -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&family=Montserrat:wght@700&display=swap');
+
+    :root {
+      --bg-color: #ffffff;
+      --card-bg: #ffffff;
+      --accent-color: #000000;
+      --text-main: #1a1a1a;
+      --text-muted: #64748b;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+      }
+    }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      scroll-behavior: smooth;
-      background-color: #f8fafc;
-      color: #1a1a1a;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      transition: background-color 0.3s ease;
     }
 
     .serif-font {
       font-family: 'Playfair Display', serif;
     }
 
+    .montserrat-font {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+      border-radius: 40px;
+    }
+
     .qr-container canvas,
     .qr-container img {
       margin: 0 auto;
       max-width: 100%;
-      height: auto;
-      border-radius: 24px;
-      border: 8px solid #f8fafc;
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      padding: 10px;
+      background: white;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
     }
 
     .fade-in {
-      animation: fadeIn 0.8s ease-out forwards;
+      animation: fadeIn 0.6s ease-out forwards;
     }
 
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px);
       }
 
       to {
@@ -50,12 +78,9 @@
       }
     }
 
-    .progress-bar-fill {
-      transition: width 0.3s ease;
-    }
-
-    input {
-      outline: none !important;
+    .gallery-icon-bg {
+      background: linear-gradient(135deg, #000 0%, #333 100%);
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
@@ -64,38 +89,45 @@
 
   <!-- ADMIN PANELİ -->
   <main id="adminPanel" class="w-full max-w-lg fade-in">
-    <div
-      class="bg-white border border-slate-100 rounded-[32px] md:rounded-[48px] p-6 md:p-14 shadow-2xl relative overflow-hidden text-center">
-      <div class="absolute top-0 left-0 w-full h-2 bg-black"></div>
-
-      <!-- Sabit Logo/Simge -->
-      <div class="flex justify-center mb-6">
+    <div class="glass-card p-8 md:p-14 text-center">
+      <!-- Galeri Simgesi -->
+      <div class="flex justify-center mb-8">
         <div
-          class="w-20 h-20 bg-black text-white rounded-[28px] flex items-center justify-center text-3xl shadow-2xl transform rotate-3 transition hover:rotate-0 duration-500">
-          <i class="fa-solid fa-cloud-bolt"></i>
+          class="w-20 h-20 gallery-icon-bg text-white rounded-[28px] flex items-center justify-center text-3xl shadow-xl transform rotate-3 transition hover:rotate-0 duration-500">
+          <i class="fa-solid fa-images"></i>
         </div>
       </div>
 
-      <h2 class="text-3xl md:text-4xl font-bold mb-2 serif-font">Anılar Buluttan</h2>
-      <p class="text-gray-400 mb-10 text-xs md:text-sm italic font-medium">Etkinliğinizi dakikalar içinde hazırlayın.
-      </p>
+      <div class="flex flex-col items-center">
+        <h2 class="text-3xl md:text-5xl font-bold mb-3 serif-font tracking-tight">Dijital Hatıra</h2>
+      </div>
+      <p class="text-muted-foreground text-sm mb-12 italic opacity-70" style="color: var(--text-muted)">"Gözünüzden
+        kaçanlar, albümden kaçmasın."</p>
 
       <form id="setupForm" class="space-y-6 text-left">
         <div>
-          <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Google Script URL
-            (Makro URL)</label>
-          <input id="scriptUrl" type="text" placeholder="https://script.google.com/macros/s/.../exec" required
-            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-black transition text-xs md:text-sm font-mono leading-relaxed">
+          <div class="flex items-center justify-between mb-3 ml-1">
+            <label
+              class="block text-[11px] font-extrabold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">Google
+              Scrİpt URL</label>
+            <button type="button" onclick="openHelpModal()"
+              class="text-indigo-500 hover:text-indigo-700 transition flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+              <i class="fa-regular fa-circle-question text-sm"></i> Nasıl Alınır?
+            </button>
+          </div>
+          <input id="scriptUrl" type="text" placeholder="https://script.google.com/macros/..." required
+            class="w-full px-6 py-5 rounded-2xl bg-white dark:bg-slate-700/50 border-2 border-slate-100 dark:border-slate-700 focus:border-black dark:focus:border-indigo-400 focus:ring-4 focus:ring-black/5 dark:focus:ring-indigo-400/10 transition-all text-sm font-mono shadow-sm placeholder:opacity-30">
         </div>
         <div>
-          <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Etkinlik
+          <label
+            class="block text-[11px] font-extrabold uppercase tracking-[0.2em] mb-3 ml-1 text-slate-500 dark:text-slate-300">Etkinlik
             Adı</label>
-          <input id="eventName" type="text" placeholder="Örn: Bilal & Emel Düğünü" required
-            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-black transition text-sm font-bold">
+          <input id="eventName" type="text" placeholder="Gökhan & Ayça Düğünü" required
+            class="w-full px-6 py-5 rounded-2xl bg-white dark:bg-slate-700/50 border-2 border-slate-100 dark:border-slate-700 focus:border-black dark:focus:border-indigo-400 focus:ring-4 focus:ring-black/5 dark:focus:ring-indigo-400/10 transition-all font-bold text-base shadow-sm placeholder:opacity-30">
         </div>
 
         <button type="submit" id="generateBtn"
-          class="w-full py-5 bg-black text-white font-bold text-lg rounded-2xl hover:bg-gray-800 active:scale-[0.98] transition shadow-xl flex items-center justify-center gap-3">
+          class="w-full py-5 bg-black dark:bg-indigo-600 text-white font-bold text-lg rounded-2xl hover:bg-gray-800 dark:hover:bg-indigo-700 active:scale-[0.97] transition-all shadow-xl flex items-center justify-center gap-3">
           <span>QR Kod Oluştur</span> <i class="fa-solid fa-magic text-sm"></i>
         </button>
       </form>
@@ -104,71 +136,121 @@
 
   <!-- MİSAFİR PANELİ -->
   <main id="guestPanel" class="hidden w-full max-w-md fade-in">
-    <div class="bg-white p-8 md:p-12 rounded-[56px] shadow-2xl text-center border border-gray-100">
+    <div class="glass-card p-10 md:p-14 text-center">
       <div
-        class="w-20 h-20 bg-black text-white rounded-3xl flex items-center justify-center mx-auto mb-8 text-3xl shadow-xl transform rotate-3">
-        <i class="fa-solid fa-cloud-bolt"></i>
+        class="w-20 h-20 gallery-icon-bg text-white rounded-3xl flex items-center justify-center mx-auto mb-8 text-3xl shadow-2xl transform rotate-3">
+        <i class="fa-solid fa-images"></i>
       </div>
-      <h2 id="displayEventTitle"
-        class="text-2xl md:text-3xl font-extrabold mb-3 tracking-tight serif-font text-slate-900 leading-tight">Hoş
-        Geldiniz</h2>
+      <h2 id="displayEventTitle" class="text-3xl font-extrabold mb-1 montserrat-font leading-tight">Gökhan & Ayça</h2>
+      <p class="text-sm italic opacity-60 mb-8" style="color: var(--text-muted)">"Düğünümüze sizin gözünüzden bakalım."
+      </p>
 
-      <div id="guestMainContent" class="space-y-6">
+      <div id="guestMainContent" class="space-y-8">
         <div class="text-left">
-          <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">Adınız
+          <label
+            class="block text-[11px] font-extrabold uppercase tracking-widest mb-3 ml-1 text-slate-700 dark:text-slate-200">Adınız
             Soyadınız</label>
-          <input id="guestName" type="text" placeholder="İsminizi yazın..." required
-            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-black transition text-sm">
+          <input id="guestName" type="text" placeholder="İsminizi buraya yazın..." required
+            class="w-full px-6 py-5 rounded-2xl bg-white dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 focus:border-black dark:focus:border-indigo-500 focus:ring-4 focus:ring-black/5 transition-all shadow-md font-medium text-base">
         </div>
 
         <div id="dropZone"
-          class="border-2 border-dashed border-slate-200 rounded-[40px] p-10 cursor-pointer bg-slate-50/50 hover:bg-slate-100/50 transition shadow-inner"
+          class="border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[40px] p-12 cursor-pointer bg-gray-50/50 dark:bg-slate-800/20 hover:bg-white dark:hover:bg-slate-800/50 transition duration-300"
           onclick="document.getElementById('fileInput').click()">
-          <i class="fa-solid fa-arrow-up-from-bracket text-3xl mb-4 text-slate-300"></i>
-          <p class="font-bold text-sm text-slate-600">Fotoğraf & Video Seç</p>
+          <i class="fa-solid fa-camera-retro text-4xl mb-4 opacity-20"></i>
+          <p class="font-bold text-base">Anılarını Seç</p>
+          <p class="text-[10px] opacity-40 mt-2 uppercase tracking-widest">Fotoğraf veya Video</p>
           <input type="file" id="fileInput" multiple accept="image/*,video/*" class="hidden"
             onchange="startGuestUpload(event)">
         </div>
 
-        <div id="uploadStatus" class="hidden text-left space-y-3 p-5 bg-slate-50 rounded-3xl border border-slate-100">
-          <div class="flex justify-between">
-            <span id="statusLabel"
-              class="text-[10px] font-bold uppercase tracking-widest text-indigo-600">Yükleniyor...</span>
-            <span id="percentLabel" class="text-[10px] font-bold text-slate-900">0%</span>
+        <div id="uploadStatus"
+          class="hidden text-left space-y-4 p-6 bg-gray-50 dark:bg-slate-800/50 rounded-3xl border border-gray-100 dark:border-slate-800">
+          <div class="flex justify-between items-center text-[11px] font-bold uppercase tracking-wider text-indigo-600">
+            <span id="statusLabel">Yükleniyor...</span>
+            <span id="percentLabel">0%</span>
           </div>
-          <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-            <div id="progressBar" class="progress-bar-fill bg-black h-full w-0"></div>
+          <div class="w-full bg-gray-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+            <div id="progressBar" class="bg-black dark:bg-white h-full w-0 transition-all duration-300"></div>
           </div>
         </div>
 
-        <div id="finishSuccess" class="hidden space-y-4">
+        <div id="finishSuccess" class="hidden space-y-6">
           <div
-            class="p-4 bg-green-50 text-green-700 rounded-2xl text-sm font-bold shadow-inner flex items-center justify-center gap-2">
-            <i class="fa-solid fa-check-circle"></i> Anılarınız Kaydedildi!
+            class="p-5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-2xl text-sm font-bold shadow-sm flex items-center justify-center gap-2">
+            <i class="fa-solid fa-heart"></i> Harika! Anıların Kaydedildi.
           </div>
           <button onclick="resetGuestUI()"
-            class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:bg-black transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-plus"></i> Yeni Fotoğraf/Video Yükle
+            class="w-full py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-bold text-sm shadow-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition">
+            <i class="fa-solid fa-plus"></i> Bir Anı Daha Paylaş
           </button>
         </div>
       </div>
     </div>
   </main>
 
+  <!-- YARDIM MODALI -->
+  <div id="helpModal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/60 backdrop-blur-md p-4">
+    <div
+      class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[40px] max-w-lg w-full relative shadow-2xl transition-all scale-100 overflow-y-auto max-h-[90vh]">
+      <button onclick="closeHelpModal()"
+        class="absolute top-6 right-6 text-gray-400 hover:text-black dark:hover:text-white transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="text-2xl font-bold mb-6 serif-font">Script URL Nasıl Alınır?</h3>
+      <div class="space-y-6 text-left text-sm leading-relaxed">
+        <div class="flex gap-4">
+          <span
+            class="flex-shrink-0 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs">1</span>
+          <p>Google Drive üzerinden yeni bir <b>Apps Script</b> projesi başlatın.</p>
+        </div>
+        <div class="flex gap-4">
+          <span
+            class="flex-shrink-0 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs">2</span>
+          <p>Açılan ekrana size verdiğim kodu yapıştırın ve kaydedin.</p>
+        </div>
+        <div class="flex gap-4">
+          <span
+            class="flex-shrink-0 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs">3</span>
+          <p>Sağ üstteki <b>Dağıt (Deploy) > Yeni Dağıtım</b> butonuna basın.</p>
+        </div>
+        <div class="flex gap-4">
+          <span
+            class="flex-shrink-0 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs">4</span>
+          <p>Tür olarak <b>Web Uygulaması</b> seçin. Erişimi <b>Herkes (Anyone)</b> yapın.</p>
+        </div>
+        <div class="flex gap-4">
+          <span
+            class="flex-shrink-0 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs">5</span>
+          <p>Oluşan <b>Web Uygulaması URL</b>'sini kopyalayıp buradaki kutucuğa yapıştırın.</p>
+        </div>
+      </div>
+      <button onclick="closeHelpModal()"
+        class="w-full mt-8 py-4 bg-slate-100 dark:bg-slate-800 rounded-2xl font-bold text-sm">Anladım</button>
+    </div>
+  </div>
+
   <!-- SONUÇ MODALI -->
   <div id="resultModal"
-    class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 p-4 backdrop-blur-md text-center">
-    <div class="bg-white p-8 md:p-12 rounded-[56px] max-w-lg w-full relative max-h-[90vh] shadow-2xl overflow-y-auto">
-      <button onclick="closeModal()" class="absolute top-8 right-8 text-gray-300 hover:text-black transition"><i
+    class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-md p-4 text-center">
+    <div
+      class="bg-white dark:bg-slate-900 p-8 md:p-14 rounded-[50px] max-w-lg w-full relative shadow-2xl transition-all scale-100">
+      <button onclick="closeModal()"
+        class="absolute top-8 right-8 text-gray-400 hover:text-black dark:hover:text-white transition"><i
           class="fa-solid fa-xmark text-2xl"></i></button>
-      <h3 class="text-3xl font-extrabold mb-3 serif-font text-slate-900">QR Kodunuz Hazır!</h3>
-      <div id="qrcode" class="qr-container p-6 bg-slate-50 rounded-[40px] mb-8 flex justify-center"></div>
-      <div class="flex flex-col gap-3">
-        <button onclick="printQR()" class="w-full py-5 bg-black text-white rounded-2xl font-bold">Yazdır</button>
-        <div class="grid grid-cols-2 gap-3">
+      <h3 class="text-3xl font-extrabold mb-8 serif-font">QR Kodunuz Hazır</h3>
+
+      <div id="qrcode" class="qr-container p-6 bg-white rounded-[32px] mb-10 inline-block"></div>
+
+      <div class="flex flex-col gap-4">
+        <button onclick="printQR()"
+          class="w-full py-5 bg-black text-white rounded-2xl font-bold hover:bg-gray-800 shadow-lg transition">Yazdır</button>
+        <div class="grid grid-cols-2 gap-4">
           <button id="testLinkBtn"
-            class="py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-xs border-none">Test Et</button>
-          <button id="copyBtn" class="py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-xs border-none">Linki
+            class="py-4 bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 rounded-2xl font-bold text-xs hover:bg-gray-200 transition">Test
+            Et</button>
+          <button id="copyBtn"
+            class="py-4 bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 rounded-2xl font-bold text-xs hover:bg-gray-200 transition text-nowrap">Linki
             Kopyala</button>
         </div>
       </div>
@@ -179,7 +261,14 @@
     let activeTargetUrl = null, activeEvent = null;
 
     const params = new URLSearchParams(window.location.search);
-    if (params.get('target') && params.get('event')) {
+    const isGuest = params.get('target') && params.get('event');
+
+    // GİRİŞ KONTROLÜ (Admin paneli için)
+    if (!isGuest && sessionStorage.getItem('isLoggedIn') !== 'true') {
+      window.location.href = "login.html";
+    }
+
+    if (isGuest) {
       activeTargetUrl = decodeURIComponent(params.get('target'));
       activeEvent = decodeURIComponent(params.get('event'));
       switchToGuestView();
@@ -187,7 +276,7 @@
 
     function switchToGuestView() {
       document.body.classList.remove('flex', 'items-center', 'justify-center');
-      document.body.classList.add('py-8', 'px-4', 'flex', 'justify-center');
+      document.body.classList.add('py-12', 'px-4', 'flex', 'justify-center');
       document.getElementById('adminPanel').classList.add('hidden');
       document.getElementById('guestPanel').classList.remove('hidden');
       document.getElementById('displayEventTitle').innerText = activeEvent;
@@ -228,11 +317,41 @@
       document.getElementById('resultModal').style.display = 'flex';
     };
 
+    // OPTİMİZE EDİLMİŞ FOTOĞRAF SIKIŞTIRICI (Yüksek Kalite)
+    async function compressImage(file) {
+      if (!file.type.startsWith('image/')) return file;
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            const MAX_WIDTH = 1600; // 1600px (HD Kalite)
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob((blob) => {
+              resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+            }, 'image/jpeg', 0.75); // %75 kalite (Net ve Keskin Görüntü)
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     window.startGuestUpload = async (event) => {
-      const files = event.target.files;
+      const originalFiles = Array.from(event.target.files);
       const guest = document.getElementById('guestName').value;
-      if (!guest) return alert("Lütfen adınızı yazın.");
-      if (!files.length) return;
+      if (!guest) return alert("Lütfen adınızı yazınız.");
+      if (!originalFiles.length) return;
 
       const progressSection = document.getElementById('uploadStatus');
       const bar = document.getElementById('progressBar'), pl = document.getElementById('percentLabel'), sl = document.getElementById('statusLabel');
@@ -240,34 +359,60 @@
 
       dropZone.classList.add('hidden');
       progressSection.classList.remove('hidden');
+      sl.innerText = "Anılar Turbo Modda Hazırlanıyor...";
 
-      for (let i = 0; i < files.length; i++) {
-        sl.innerText = `${i + 1} / ${files.length} Dosya Gönderiliyor...`;
-        const file = files[i];
-        const reader = new FileReader();
-        await new Promise((resolve) => {
-          reader.onload = async (e) => {
-            try {
-              await fetch(activeTargetUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ data: e.target.result, name: file.name, guest: guest, event: activeEvent })
-              });
-              const prg = ((i + 1) / files.length) * 100;
-              bar.style.width = prg + '%';
-              pl.innerText = Math.round(prg) + '%';
-              resolve();
-            } catch (err) { resolve(); }
-          };
-          reader.readAsDataURL(file);
-        });
+      let uploadedCount = 0;
+      const totalCount = originalFiles.length;
+
+      // TURBO KUYRUK (Aynı anda 4 dosya)
+      const CONCURRENCY = 4;
+      const chunks = [];
+      for (let i = 0; i < originalFiles.length; i += CONCURRENCY) {
+        chunks.push(originalFiles.slice(i, i + CONCURRENCY));
       }
-      sl.innerText = "Yükleme Tamamlandı!";
+
+      for (const chunk of chunks) {
+        await Promise.all(chunk.map(async (file) => {
+          const fileToUpload = await compressImage(file);
+
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+              try {
+                if (file.type.startsWith('video/')) {
+                  sl.innerText = "Video yükleniyor (Lütfen bekleyin)...";
+                }
+
+                await fetch(activeTargetUrl, {
+                  method: 'POST',
+                  mode: 'no-cors',
+                  body: JSON.stringify({ data: e.target.result, name: fileToUpload.name, guest: guest, event: activeEvent })
+                });
+                uploadedCount++;
+                sl.innerText = `${uploadedCount} / ${totalCount} Tamamlandı (Hızlandırıldı)`;
+                const prg = (uploadedCount / totalCount) * 100;
+                bar.style.width = prg + '%';
+                pl.innerText = Math.round(prg) + '%';
+                resolve();
+              } catch (err) {
+                uploadedCount++;
+                resolve();
+              }
+            };
+            reader.readAsDataURL(fileToUpload);
+          });
+        }));
+      }
+
+      sl.innerText = "Tüm Anılar Kaydedildi!";
       progressSection.classList.add('hidden');
       document.getElementById('finishSuccess').classList.remove('hidden');
     };
 
     window.closeModal = () => document.getElementById('resultModal').style.display = 'none';
+
+    window.openHelpModal = () => document.getElementById('helpModal').style.display = 'flex';
+    window.closeHelpModal = () => document.getElementById('helpModal').style.display = 'none';
 
     window.printQR = () => {
       const qrImg = document.querySelector('#qrcode img');
@@ -278,6 +423,370 @@
       setTimeout(() => { win.print(); win.close(); }, 500);
     };
   </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap | Dijital Hatıra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #0f172a;
+                color: #f8fafc;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border-radius: 40px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .glass-card {
+                background: #1e293b;
+                border-color: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        .gallery-icon-bg {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            outline: none !important;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <main class="w-full max-w-md">
+        <div class="glass-card p-10 md:p-14 text-center">
+            <!-- Simge -->
+            <div class="flex justify-center mb-8">
+                <div
+                    class="w-20 h-20 gallery-icon-bg text-white rounded-[28px] flex items-center justify-center text-3xl shadow-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-2 font-serif" style="font-family: 'Playfair Display', serif;">Yönetim
+                Paneli</h2>
+            <p class="text-slate-500 text-sm mb-10">Devam etmek için giriş yapın.</p>
+
+            <form id="loginForm" class="space-y-6 text-left">
+                <div>
+                    <label
+                        class="block text-[11px] font-extrabold uppercase tracking-widest mb-2 ml-1 opacity-60">Kullanıcı
+                        Adı</label>
+                    <input type="text" id="username" placeholder="Kullanıcı adınız" required
+                        class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border-2 border-transparent focus:border-black dark:focus:border-indigo-500 transition-all font-medium">
+                </div>
+                <div>
+                    <label
+                        class="block text-[11px] font-extrabold uppercase tracking-widest mb-2 ml-1 opacity-60">Parola</label>
+                    <input type="password" id="password" placeholder="••••••••" required
+                        class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border-2 border-transparent focus:border-black dark:focus:border-indigo-500 transition-all font-medium">
+                </div>
+
+                <div id="errorMessage"
+                    class="hidden text-red-500 text-xs font-bold text-center bg-red-50 dark:bg-red-900/20 py-3 rounded-xl">
+                    Hatalı kullanıcı adı veya parola!
+                </div>
+
+                <button type="submit"
+                    class="w-full py-5 bg-black dark:bg-indigo-600 text-white font-bold text-lg rounded-2xl hover:bg-gray-800 dark:hover:bg-indigo-700 active:scale-[0.98] transition-all shadow-xl">
+                    Giriş Yap
+                </button>
+            </form>
+
+            <p class="mt-8 text-[10px] text-slate-400 uppercase tracking-widest font-bold">Dijital Hatıra &copy; 2026
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Kullanıcı listesini al veya varsayılan oluştur
+        let users = JSON.parse(localStorage.getItem('users')) || [
+            { user: "admin", pass: "hatira2026" }
+        ];
+
+        // Eğer ilk kez açılıyorsa yerel hafızaya kaydet
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        document.getElementById('loginForm').onsubmit = (e) => {
+            e.preventDefault();
+            const userInput = document.getElementById('username').value;
+            const passInput = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMessage');
+
+            // Kullanıcıyı listede ara
+            const foundUser = users.find(u => u.user === userInput && u.pass === passInput);
+
+            if (foundUser) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                window.location.href = "index.html";
+            } else {
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => errorMsg.classList.add('hidden'), 3000);
+            }
+        };
+    </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Yönetimi | Dijital Hatıra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #0f172a;
+                color: #f8fafc;
+            }
+        }
+
+        .glass-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border-radius: 40px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .glass-card {
+                background: #1e293b;
+                border-color: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        .user-row {
+            transition: all 0.2s;
+        }
+
+        .user-row:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .user-row:hover {
+                background-color: rgba(255, 255, 255, 0.02);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-12 flex justify-center">
+
+    <main class="w-full max-w-2xl">
+        <div class="flex items-center justify-between mb-8 px-4">
+            <h1 class="text-3xl font-bold font-serif" style="font-family: 'Playfair Display', serif;">Kullanıcı Yönetimi
+            </h1>
+            <a href="index.html"
+                class="flex items-center gap-2 text-sm font-bold opacity-60 hover:opacity-100 transition">
+                <i class="fa-solid fa-arrow-left"></i> Panele Dön
+            </a>
+        </div>
+
+        <div class="space-y-6">
+            <!-- YENİ KULLANICI EKLE -->
+            <div class="glass-card p-8">
+                <h2 class="text-lg font-extrabold uppercase tracking-widest mb-6 opacity-40 text-xs">Yeni Yetkili Ekle
+                </h2>
+                <form id="addUserForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" id="newUsername" placeholder="Kullanıcı Adı" required
+                        class="px-5 py-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border-2 border-transparent focus:border-black dark:focus:border-indigo-500 outline-none transition-all font-medium">
+                    <input type="password" id="newPassword" placeholder="Parola" required
+                        class="px-5 py-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border-2 border-transparent focus:border-black dark:focus:border-indigo-500 outline-none transition-all font-medium">
+                    <button type="submit"
+                        class="bg-black dark:bg-indigo-600 text-white font-bold rounded-2xl py-4 hover:scale-[1.02] active:scale-[0.98] transition shadow-lg">
+                        Ekle
+                    </button>
+                </form>
+            </div>
+
+            <!-- KULLANICI LİSTESİ -->
+            <div class="glass-card overflow-hidden">
+                <div class="p-8 border-b border-gray-50 dark:border-slate-800/50">
+                    <h2 class="text-lg font-extrabold uppercase tracking-widest opacity-40 text-xs">Mevcut Yetkililer
+                    </h2>
+                </div>
+                <div id="userList" class="divide-y divide-gray-50 dark:divide-slate-800/50">
+                    <!-- Kullanıcılar buraya yüklenecek -->
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-12 text-center text-[10px] text-slate-400 uppercase tracking-widest font-bold">Lütfen en az bir
+            admin hesabı bırakmayı unutmayın.</p>
+    </main>
+
+    <!-- DÜZENLEME MODALI -->
+    <div id="editModal"
+        class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/60 backdrop-blur-md p-4">
+        <div
+            class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[40px] max-w-lg w-full relative shadow-2xl transition-all scale-100">
+            <button onclick="closeEditModal()"
+                class="absolute top-6 right-6 text-gray-400 hover:text-black dark:hover:text-white transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 class="text-2xl font-bold mb-6 serif-font">Kullanıcıyı Düzenle</h3>
+            <form id="editUserForm" class="space-y-4">
+                <input type="hidden" id="editUserIndex">
+                <div>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-widest mb-2 opacity-50">Yeni
+                        Kullanıcı Adı</label>
+                    <input type="text" id="editUsername" required
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border-2 border-transparent focus:border-black dark:focus:border-indigo-500 outline-none transition-all font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-extrabold uppercase tracking-widest mb-2 opacity-50">Yeni
+                        Parola</label>
+                    <input type="password" id="editPassword" required
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border-2 border-transparent focus:border-black dark:focus:border-indigo-500 outline-none transition-all font-medium">
+                </div>
+                <button type="submit"
+                    class="w-full mt-4 py-4 bg-black dark:bg-indigo-600 text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-[0.98] transition">Güncelle</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Güvenlik Kontrolü
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = "login.html";
+        }
+
+        const userListDiv = document.getElementById('userList');
+        const addUserForm = document.getElementById('addUserForm');
+        const editModal = document.getElementById('editModal');
+        const editUserForm = document.getElementById('editUserForm');
+
+        function loadUsers() {
+            const users = JSON.parse(localStorage.getItem('users')) || [{ user: "admin", pass: "hatira2026" }];
+            userListDiv.innerHTML = '';
+
+            users.forEach((u, index) => {
+                const row = document.createElement('div');
+                row.className = 'user-row p-6 flex items-center justify-between';
+                row.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm">${u.user}</p>
+                            <p class="text-[10px] opacity-40 uppercase tracking-tighter">Yetkili Kullanıcı</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openEditModal(${index})" class="w-10 h-10 text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-xl transition">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        ${users.length > 1 ? `
+                            <button onclick="deleteUser(${index})" class="w-10 h-10 text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                userListDiv.appendChild(row);
+            });
+        }
+
+        addUserForm.onsubmit = (e) => {
+            e.preventDefault();
+            const user = document.getElementById('newUsername').value;
+            const pass = document.getElementById('newPassword').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            if (users.some(u => u.user === user)) {
+                alert("Bu kullanıcı adı zaten mevcut!");
+                return;
+            }
+
+            users.push({ user, pass });
+            localStorage.setItem('users', JSON.stringify(users));
+            addUserForm.reset();
+            loadUsers();
+        };
+
+        window.openEditModal = (index) => {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users[index];
+            document.getElementById('editUserIndex').value = index;
+            document.getElementById('editUsername').value = user.user;
+            document.getElementById('editPassword').value = user.pass;
+            editModal.style.display = 'flex';
+        };
+
+        window.closeEditModal = () => editModal.style.display = 'none';
+
+        editUserForm.onsubmit = (e) => {
+            e.preventDefault();
+            const index = document.getElementById('editUserIndex').value;
+            const newUser = document.getElementById('editUsername').value;
+            const newPass = document.getElementById('editPassword').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            if (users.some((u, i) => i != index && u.user === newUser)) {
+                alert("Bu kullanıcı adı zaten başka bir hesap tarafından kullanılıyor!");
+                return;
+            }
+
+            users[index] = { user: newUser, pass: newPass };
+            localStorage.setItem('users', JSON.stringify(users));
+            closeEditModal();
+            loadUsers();
+        };
+
+        window.deleteUser = (index) => {
+            if (confirm("Bu kullanıcıyı silmek istediğinize emin misiniz?")) {
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadUsers();
+            }
+        };
+
+        loadUsers();
+    </script>
 </body>
 
 </html>
